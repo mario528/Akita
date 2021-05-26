@@ -14,8 +14,9 @@
 </template>
 
 <script>
-import { computed } from "@vue/runtime-core";
+import { computed, watch } from "@vue/runtime-core";
 import processComponent from "../../utils/base";
+import useScroll from "../../utils/useScroll";
 const { warpComponent } = processComponent("overlay");
 export default warpComponent({
   props: {
@@ -33,15 +34,20 @@ export default warpComponent({
     },
     backgroundColor: {
       type: String,
-      default: "rgba(0,0,0,.2)",
+      default: "rgba(0,0,0,.4)",
     },
     closeAble: {
+      type: Boolean,
+      default: true,
+    },
+    useLock: {
       type: Boolean,
       default: true,
     },
   },
   emits: ["overlay:click"],
   setup(props, { emit }) {
+    const [lock, unLock] = useScroll();
     const overlayCls = computed(() => {
       return {
         "overlay-container": true,
@@ -53,6 +59,18 @@ export default warpComponent({
         backgroundColor: props.backgroundColor,
       };
     });
+    watch(
+      () => props.visible,
+      (newValue) => {
+        if (props.useLock) {
+          if (newValue) {
+            lock();
+          } else {
+            unLock();
+          }
+        }
+      }
+    );
     const handleClickOverlay = () => {
       if (props.closeAble) {
         emit("overlay:click");
@@ -67,35 +85,6 @@ export default warpComponent({
 });
 </script>
 
-<style scoped>
-.overlay-fade-enter-active {
-  animation: fade-in;
-}
-.overlay-fade-leave-active {
-  animation: fade-out;
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-@keyframes fade-out {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-.overlay-container {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-}
+<style lang="scss" scoped>
+@import url("./overlay.scss");
 </style>
