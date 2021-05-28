@@ -1,9 +1,10 @@
 <template>
     <transition name="toast-fade">
-        <div class="akita-loading-container" :style="maskStyle" v-if="visible">
+        <div class="akita-toast-container" :style="maskStyle" v-if="visible">
             <template v-if="type === 'loading'">
-                <div class="loading">
-
+                <div class="akita-loading-box">
+                    <img class="akita-loading-icon" src="../../../assets/loading.png" />
+                    <div class="akita-loading-text" v-if="text">{{text}}</div>
                 </div>
             </template>
             <template v-if="type !== 'loading'">
@@ -15,7 +16,7 @@
 
 <script>
 import { reactive, toRefs, onMounted, computed } from "vue";
-import processComponent from "../../utils/base";
+import processComponent from "../utils/base";
 
 const { warpComponent } = processComponent("toast");
 export default warpComponent({
@@ -69,5 +70,5 @@ export default warpComponent({
 </script>
 
 <style lang="scss" scoped>
-@import url('./toast.scss');
+@import './toast.scss';
 </style>

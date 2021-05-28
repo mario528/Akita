@@ -1,20 +1,54 @@
-.akita-loading-container {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
+@import '../style/flex/flex.scss';
+.akita {
+    &-toast-container {
+        @extend .akita-flex-column-center;
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+    &-loading {
+        &-box {
+            @extend .akita-flex-column-center;
+            padding: 15px 25px;
+            border-radius: 5px;
+            background-color: #333333;
+        }
+        &-icon {
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+        }
+        &-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: white;
+            margin-top: 10px;
+        }
+    }
 }
 
+.toast-fade-leave-active,
 .toast-fade-enter-active {
     transition: opacity;
 }
 
-.toast-fade-leave-active {
-    transition: opacity;
+.toast-fade-leave-from,
+.toast-fade-enter-to {
+    opacity: 1;
 }
 
 .toast-fade-enter-from,
 .toast-fade-leave-to {
     opacity: 0;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

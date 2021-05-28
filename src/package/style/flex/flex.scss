@@ -1,0 +1,19 @@
+.akita-flex {
+    display: flex;
+    &-column {
+        @extend .akita-flex;
+        flex-direction: column;
+        &-x-center {
+            @extend .akita-flex-column;
+            align-items: center;
+        }
+        &-y-center {
+            @extend .akita-flex-column;
+            justify-content: center;
+        }
+        &-center {
+            @extend .akita-flex-column-x-center;
+            @extend .akita-flex-column-y-center;
+        }
+    }
+}

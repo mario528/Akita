@@ -1,5 +1,5 @@
 import { createVNode, render } from 'vue';
-import { generateID } from '../../utils/util';
+import { generateID } from '../utils/util';
 import ToastComp from './Toast.vue';
 // loading text wraning error success
 // position: center top
@@ -22,7 +22,7 @@ const defaultOptions = {
     maskDuration: 0.3,
 };
 
-const create = (text, options) => {
+const create = (options) => {
     // 查看此时
     const { id, type } = options;
     if (nowElId === '') {
@@ -44,10 +44,11 @@ const clearAll = () => {
 
 export const Toast = {
     loading: (text, options) => {
-        create(text, {
+        create({
             ...defaultOptions,
             ...options,
             ...{
+                text: text,
                 type: 'loading'
             }
         });

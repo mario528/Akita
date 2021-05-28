@@ -13,7 +13,7 @@ export default {
     },
     methods: {
         handleShowToast() {
-            Toast.loading('测试')
+            Toast.loading()
         }
     }
 }

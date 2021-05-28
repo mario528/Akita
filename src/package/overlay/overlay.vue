@@ -15,7 +15,7 @@
 
 <script>
 import { computed, watch } from "@vue/runtime-core";
-import processComponent from "../../utils/base";
+import processComponent from "../utils/base";
 import useScroll from "../../utils/useScroll";
 const { warpComponent } = processComponent("overlay");
 export default warpComponent({
