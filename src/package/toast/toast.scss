@@ -27,6 +27,21 @@
             margin-top: 10px;
         }
     }
+    &-toast {
+        &-box {
+            @extend .akita-flex-column-center;
+            padding: 10px 15px;
+            max-width: 45vw;
+            min-width: 25vw;
+            word-break: break-all;
+            border-radius: 5px;
+            text-align: center;
+            &-common {
+                color: white;
+                background-color: #333333;
+            }
+        }
+    }
 }
 
 .toast-fade-leave-active,
