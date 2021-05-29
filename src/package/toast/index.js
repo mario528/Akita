@@ -139,5 +139,9 @@ export const Toast = {
   },
   closeAll: () => {
     clearAll();
+  },
+  install(app) {
+    app.use(ToastComp);
+    app.config.globalProperties.$toast = Toast;
   }
 };
