@@ -40,7 +40,9 @@ const _render = function (options) {
 
 // 创建 Toast 实例
 const create = (options) => {
-  // 查看此时
+  options.onClose = remove;
+  options.removeDom = removeDom;
+  options.id = "toast-" + generateID();
   const { id, type } = options;
   let toastConf = {
     options: options,
@@ -54,24 +56,24 @@ const create = (options) => {
     if (type === "loading") {
       loadingMap[id] = toastConf;
     } else {
-        toastList.push(toastConf);
+      toastList.push(toastConf);
     }
   }
 };
 
-const remove = () => {
+const remove = (isLoading = false) => {
   let isToast = true;
-  if (loadingMap[nowElId]) {
+  if (loadingMap[nowElId] || isLoading) {
     isToast = false;
   }
   if (Object.keys(loadingMap).length !== 0 && !isToast) {
-    nowElId = loadingMap[Object.keys(loadingMap)[0]].options.id;
-    delete loadingMap[`${nowElId}`];
+    let nexElId = loadingMap[Object.keys(loadingMap)[0]].options.id;
+    delete loadingMap[`${nexElId}`];
   } else if (isToast && toastList.length !== 0) {
-    const conf = toastList.shift()
+    const conf = toastList.shift();
     instance.component.ctx.hide(false);
     instance = null;
-    cacheToastList.push(nowElId)
+    cacheToastList.push(nowElId);
     nowElId = "";
     create(conf.options);
   } else if (Object.keys(loadingMap).length !== 0 || toastList.length !== 0) {
@@ -79,35 +81,42 @@ const remove = () => {
     instance = null;
     nowElId = "";
     nowConf = {};
-    if (isToast) {
-      create(toastList[0].config);
+    if (toastList.length !== 0) {
+      create(toastList.shift().options);
     } else {
       create(loadingMap[Object.keys(loadingMap)[0]].config);
     }
   } else {
     !isToast && instance.component.ctx.hide();
     instance = null;
-    if (cacheToastList.length) {
-        cacheToastList.push(nowElId);
-        cacheToastList.map(id => {
-            const dom = document.getElementById(id);
-            if (dom) {
-                document.body.removeChild(dom);
-            }
-        })
-    }
+    cacheToastList.push(nowElId);
     nowElId = "";
     nowConf = {};
   }
 };
 
+const removeDom = () => {
+  if (cacheToastList.length) {
+    cacheToastList.map((id) => {
+      const dom = document.getElementById(id);
+      if (dom) {
+        document.body.removeChild(dom);
+      }
+    });
+  }
+};
+
 const clearAll = () => {
-    instance = null;
-    nowElId = "";
-    nowConf = {};
-    loadingMap = {};
-    toastList = [];
-    instance.component.ctx.hide();
+  instance = null;
+  nowElId = "";
+  nowConf = {};
+  loadingMap = {};
+  toastList = [];
+  instance.component.ctx.hide();
+};
+
+const closeLoading = () => {
+  remove(true);
 };
 
 export const Toast = {
@@ -118,7 +127,6 @@ export const Toast = {
       ...{
         text: text,
         type: "loading",
-        onClose: remove,
       },
     });
   },
@@ -129,13 +137,44 @@ export const Toast = {
       ...{
         text: text,
         type: "text",
-        id: "toast-" + generateID(),
-        onClose: remove,
+      },
+    });
+  },
+  success: (text, options) => {
+    create({
+      ...defaultOptions,
+      ...options,
+      ...{
+        text: text,
+        type: "text",
+        level: "success",
+      },
+    });
+  },
+  error: (text, options) => {
+    create({
+      ...defaultOptions,
+      ...options,
+      ...{
+        text: text,
+        type: "text",
+        level: "error",
+      },
+    });
+  },
+  warn: (text, options) => {
+    create({
+      ...defaultOptions,
+      ...options,
+      ...{
+        text: text,
+        type: "text",
+        level: "warn",
       },
     });
   },
   close: () => {
-    remove(nowElId);
+    closeLoading();
   },
   closeAll: () => {
     clearAll();
@@ -143,5 +182,5 @@ export const Toast = {
   install(app) {
     app.use(ToastComp);
     app.config.globalProperties.$toast = Toast;
-  }
+  },
 };

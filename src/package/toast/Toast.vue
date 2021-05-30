@@ -1,5 +1,5 @@
 <template>
-    <transition name="toast-fade">
+    <transition name="toast-fade" @after-leave="afterLeave">
         <div class="akita-toast-container" :style="maskStyle" v-if="visible">
             <template v-if="type === 'loading'">
                 <div class="akita-loading-box">
@@ -9,6 +9,7 @@
             </template>
             <template v-if="type !== 'loading'">
                 <div :class="toastCls">
+                    <img v-if="level !== 'common'" :src="`../../../assets/${level}.png`" class="akita-toast-icon">
                     <div>{{ text }}</div>
                 </div>
             </template>
@@ -60,6 +61,10 @@ export default warpComponent({
         onClose: {
             type: Function,
             default: () => {},
+        },
+        removeDom: {
+            type: Function,
+            default: () => {},
         }
     },
     setup(props) {
@@ -87,6 +92,9 @@ export default warpComponent({
             return {
                 'akita-toast-box': true,
                 'akita-toast-box-common': props.level === 'common',
+                'akita-toast-box-success': props.level === 'success',
+                'akita-toast-box-error': props.level === 'error',
+                'akita-toast-box-warn': props.level === 'warn',
             }
         })
         const hide = (flag = true) => {
@@ -94,11 +102,15 @@ export default warpComponent({
             if (props.type === 'text' && flag) {
                 props.onClose();
             }
+        };
+        const afterLeave = () => {
+            props.removeDom && props.removeDom();
         }
         return {
             hide,
             maskStyle,
             toastCls,
+            afterLeave,
             ...toRefs(toastState),
         }
     }

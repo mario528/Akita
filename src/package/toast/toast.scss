@@ -40,6 +40,23 @@
                 color: white;
                 background-color: #333333;
             }
+            &-success {
+                @extend .akita-toast-box-common;
+                img {
+                    margin-top: 5px;
+                    margin-bottom: 10px;
+                }
+            }
+            &-warn {
+                @extend .akita-toast-box-success;
+            }
+            &-error {
+                @extend .akita-toast-box-success;
+            }
+        }
+        &-icon {
+            width: 32px;
+            height: 32px;
         }
     }
 }

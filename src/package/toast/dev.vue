@@ -1,7 +1,11 @@
 <template>
   <div @click="handleShowLoading">点击打开 Loading</div>
-  <div @click="handleShowToast">点击打开 Toast</div>
-  <div @click="handleShowLoadingWithToast">Loading with Toast</div>
+  <div @click="handleShowToast('common')">常规 Toast</div>
+  <div @click="handleShowToast('success')">成功 Toast</div>
+  <div @click="handleShowToast('error')">错误 Toast</div>
+  <div @click="handleShowToast('warn')">警告 Toast</div>
+  <div @click="handleShowToastContinuous">Toast连续弹出</div>
+  <div @click="handleShowLoadingWithToast">Loading Toast 同时调起</div>
 </template>
 
 <script>
@@ -20,9 +24,26 @@ export default {
             }, 2000);
             setTimeout(() => {
                 Toast.close()
-            }, 6000);
+            }, 1000);
         },
-        handleShowToast() {
+        handleShowToast(type = 'common') {
+            switch (type) {
+                case 'common':
+                    Toast.text('普通级别 Toast');
+                    break;
+                case 'success':
+                    Toast.success('成功');
+                    break;
+                case 'warn':
+                    Toast.warn('警告');
+                    break;
+                case 'error':
+                    Toast.error('错误');
+                    break;
+            }
+        },
+        
+        handleShowToastContinuous() {
             Toast.text('1');
             Toast.text('2');
             Toast.text('3');

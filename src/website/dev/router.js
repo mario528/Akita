@@ -15,6 +15,9 @@ for (const path in compDemoModules) {
     routes.push({
         path: `/${compName}`,
         name: `/${compName}`,
+        meta: {
+            title: compName,
+        },
         component: compDemoModules[path],
     })
 }
@@ -22,6 +25,12 @@ for (const path in compDemoModules) {
 const router = createRouter({
     history: createWebHashHistory(),
     routes,
+})
+
+router.beforeEach((to, from) => {
+    if (to.meta && to.meta.title) {
+        document.title = to.meta.title
+    }
 })
 
 export default router;
