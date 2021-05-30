@@ -22,8 +22,9 @@
 </template>
 
 <script>
-import { reactive, toRefs, onMounted, computed, onUpdated } from 'vue';
+import { reactive, toRefs, onMounted, computed, onUnmounted } from 'vue';
 import processComponent from '../utils/base';
+import useScroll from '../utils/useScroll';
 
 const { warpComponent } = processComponent('toast');
 export default warpComponent({
@@ -70,13 +71,21 @@ export default warpComponent({
 			type: Function,
 			default: () => {},
 		},
+		useLock: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	setup(props) {
 		let timer = null;
+		const [lock, unLock] = useScroll();
 		const toastState = reactive({
 			visible: false,
 		});
 		onMounted(() => {
+			if (props.useLock) {
+				lock();
+			}
 			toastState.visible = true;
 			if (props.type === 'text') {
 				timer = setTimeout(() => {
@@ -102,6 +111,9 @@ export default warpComponent({
 			};
 		});
 		const hide = (flag = true) => {
+			if (props.useLock) {
+				unLock();
+			}
 			toastState.visible = false;
 			if (props.type === 'text' && flag) {
 				props.onClose();
@@ -110,6 +122,7 @@ export default warpComponent({
 		const afterLeave = () => {
 			props.removeDom && props.removeDom();
 		};
+
 		return {
 			hide,
 			maskStyle,
