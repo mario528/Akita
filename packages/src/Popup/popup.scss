@@ -1,0 +1,17 @@
+.akait {
+    &-popup {
+        &-container {
+            transition: transform 0.3s;
+        }
+        &-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            transition: transform 0.3s;
+        }
+    }
+}
+.popup-bottom-enter-from,
+.popup-bottom-leave-active {
+    transform: translateY(100%);
+}
