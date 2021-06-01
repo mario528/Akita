@@ -1,13 +1,11 @@
-<p align="center">
-<strong style="font-size: 30px">Akita</strong>
-</p>
-<p align="center">
+# Akita
+<p align="left">
     <a href="https://v3.vuejs.org/">
         <img style="width: 40px" src="https://img.shields.io/badge/Vue-3.x-brightgreen">
     </a>
 </p>
 
--   🐶 Akita(秋田)是一个基于 Vue3 开发的移动端组件库。
+-   🐶 Akita 是一个基于 Vue3 开发的移动端组件库。
 
 ## 预览
 
