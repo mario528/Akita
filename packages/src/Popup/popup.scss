@@ -3,7 +3,33 @@
         &-container {
             transition: transform 0.3s;
         }
+        &-top {
+            position: fixed;
+            left: 0;
+            top: 0;
+            transition: transform 0.3s;
+            transition-duration: 2s;
+        }
         &-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            transition: transform 0.3s;
+        }
+        &-left {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 100vh;
+            transition: transform 0.3s;
+        }
+        &-right {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            transition: transform 0.3s;
+        }
+        &-center {
             position: fixed;
             bottom: 0;
             left: 0;
@@ -11,7 +37,22 @@
         }
     }
 }
+.popup-top-enter-from,
+.popup-top-leave-active {
+    transform: translateY(-100%);
+}
+
 .popup-bottom-enter-from,
 .popup-bottom-leave-active {
     transform: translateY(100%);
+}
+
+.popup-left-enter-from,
+.popup-left-leave-active {
+    transform: translateX(-100%);
+}
+
+.popup-right-enter-from,
+.popup-right-leave-active {
+    transform: translateX(100%);
 }

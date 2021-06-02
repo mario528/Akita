@@ -1,6 +1,7 @@
 <template>
+	{{ visible }}
 	<div @click="handleClickPopup">操作 popup</div>
-	<Popup :visible="visible">
+	<Popup v-model:visible="visible" direction="right">
 		<div class="test"></div>
 	</Popup>
 </template>

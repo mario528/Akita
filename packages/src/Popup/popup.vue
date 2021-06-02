@@ -1,19 +1,25 @@
 <template>
-	<Overlay :visible="visible" :closeAble="closeAble" :backgroundColor="backgroundColor">
-		<transition :name="animationName">
-			<div v-show="visible" :class="popupContainerCls">
+	<Overlay
+		:visible="open"
+		:closeAble="closeAble"
+		:backgroundColor="backgroundColor"
+		@overlay:click="handleMaskClick"
+	>
+		<Transition :name="animationName">
+			<div v-show="open" :class="popupContainerCls">
 				<slot></slot>
 			</div>
-		</transition>
+		</Transition>
 	</Overlay>
 </template>
 
 <script>
 import processComponent from '../utils/base';
 import Overlay from '../overlay/overlay.vue';
-import { computed } from '@vue/runtime-core';
+import { computed, onMounted, reactive, toRefs } from '@vue/runtime-core';
 const { warpComponent } = processComponent('popup');
 export default warpComponent({
+	events: ['update:visible'],
 	components: {
 		Overlay,
 	},
@@ -35,9 +41,9 @@ export default warpComponent({
 			default: 'rgba(0,0,0,.2)',
 		},
 	},
-	setup(props) {
+	setup(props, { emit }) {
 		const animationName = computed(() => {
-			return [`popup-${props.direction}`];
+			return `popup-${props.direction}`;
 		});
 		const popupContainerCls = computed(() => {
 			return {
@@ -45,9 +51,16 @@ export default warpComponent({
 				[`akait-popup-${props.direction}`]: true,
 			};
 		});
+		const open = computed(() => props.visible);
+		const handleMaskClick = () => {
+			emit('update:visible', false);
+		};
+
 		return {
+			open,
 			animationName,
 			popupContainerCls,
+			handleMaskClick,
 		};
 	},
 });
