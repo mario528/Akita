@@ -1,4 +1,4 @@
-const commitType = ['upd', 'feat', 'fix', 'refactor', 'doc', 'chore', 'style', 'revert', 'test'];
+const commitType = ['upd', 'feat', 'fix', 'refactor', 'docs', 'chore', 'style', 'revert', 'test'];
 module.exports = {
 	extends: ['@commitlint/config-conventional'],
 	rules: {

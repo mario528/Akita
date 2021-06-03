@@ -1,4 +1,5 @@
 # Akita
+
 <p align="left">
     <a href="https://v3.vuejs.org/">
         <img style="width: 40px" src="https://img.shields.io/badge/Vue-3.x-brightgreen">
@@ -19,5 +20,6 @@ yarn run dev
 
 | 组件    | 功能           | 支持状态 |
 | ------- | -------------- | -------- |
-| Overlay | 弹出层基础组件 | ✅       |
+| Overlay | 遮罩层基础组件 | ✅       |
 | Toast   | 轻提示组件     | ✅       |
+| Popup   | 弹出层组件     | ❌       |
